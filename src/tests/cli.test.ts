@@ -9,6 +9,7 @@ export const testCli = () => {
 
   const DEFAULT_CLI_OPTIONS: CliOptions = {
     camelCase: false,
+    declareGlobal: false,
     dialectName: undefined,
     excludePattern: undefined,
     includePattern: undefined,
@@ -31,6 +32,7 @@ export const testCli = () => {
       };
 
       assert(['--camel-case'], { camelCase: true });
+      assert(['--declare-global'], { declareGlobal: true });
       assert(['--dialect=mysql'], { dialectName: 'mysql' });
       assert(['--exclude-pattern=public._*'], { excludePattern: 'public._*' });
       assert(['--help'], {});

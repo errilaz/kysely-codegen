@@ -10,6 +10,7 @@ import { Transformer } from './transformer';
 export type GenerateOptions = {
   camelCase?: boolean;
   db: Kysely<any>;
+  declareGlobal?: boolean;
   dialect: Dialect;
   excludePattern?: string;
   includePattern?: string;
@@ -54,7 +55,10 @@ export class Generator {
 
     const serializer =
       options.serializer ??
-      new Serializer({ typeOnlyImports: options.typeOnlyImports });
+      new Serializer({
+        declareGlobal: options.declareGlobal,
+        typeOnlyImports: options.typeOnlyImports,
+      });
     const data = serializer.serialize(nodes);
 
     if (options.print) {

@@ -23,6 +23,7 @@ const IDENTIFIER_REGEXP = /^[a-zA-Z_$][a-zA-Z_0-9$]*$/;
 
 export type SerializerOptions = {
   typeOnlyImports?: boolean;
+  declareGlobal?: boolean
 };
 
 /**
@@ -30,14 +31,20 @@ export type SerializerOptions = {
  */
 export class Serializer {
   readonly typeOnlyImports: boolean;
+  readonly declareGlobal: boolean;
 
   constructor(options: SerializerOptions = {}) {
     this.typeOnlyImports = options.typeOnlyImports ?? true;
+    this.declareGlobal = options.declareGlobal ?? false;
   }
 
   serialize(nodes: StatementNode[]) {
     let data = '';
     let i = 0;
+
+    if (this.declareGlobal) {
+      data += 'declare global {\n\n'
+    }
 
     for (const node of nodes) {
       if (i >= 1) {
@@ -61,6 +68,10 @@ export class Serializer {
     }
 
     data += '\n';
+
+    if (this.declareGlobal) {
+      data += '\n}\n'
+    }
 
     return data;
   }

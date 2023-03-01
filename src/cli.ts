@@ -15,6 +15,7 @@ import { Logger } from './logger';
 
 export type CliOptions = {
   camelCase: boolean;
+  declareGlobal: boolean;
   dialectName: DialectName | undefined;
   excludePattern: string | undefined;
   includePattern: string | undefined;
@@ -37,6 +38,7 @@ export class Cli {
     const excludePattern = options.excludePattern;
     const includePattern = options.includePattern;
     const typeOnlyImports = options.typeOnlyImports;
+    const declareGlobal = options.declareGlobal
 
     const logger = new Logger(options.logLevel);
 
@@ -69,6 +71,7 @@ export class Cli {
     await generator.generate({
       camelCase,
       db,
+      declareGlobal,
       dialect,
       excludePattern,
       includePattern,
@@ -151,6 +154,9 @@ export class Cli {
       argv['type-only-imports'] ?? true,
     );
     const url = (argv.url as string) ?? DEFAULT_URL;
+    const declareGlobal = this.#parseBoolean(
+      argv['declare-global']
+    );
 
     try {
       for (const key in argv) {
@@ -199,6 +205,7 @@ export class Cli {
 
     return {
       camelCase,
+      declareGlobal,
       dialectName,
       excludePattern,
       includePattern,

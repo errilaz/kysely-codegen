@@ -18,6 +18,10 @@ export const FLAGS: Flag[] = [
     longName: 'dialect',
   },
   {
+    description: 'Generate globally declared definitions',
+    longName: 'declare-global',
+  },
+  {
     description: 'Print this message.',
     longName: 'help',
     shortName: 'h',
