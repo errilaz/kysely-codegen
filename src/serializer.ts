@@ -41,10 +41,7 @@ export class Serializer {
   serialize(nodes: StatementNode[]) {
     let data = '';
     let i = 0;
-
-    if (this.declareGlobal) {
-      data += 'declare global {\n\n'
-    }
+    let serializingExports = false
 
     for (const node of nodes) {
       if (i >= 1) {
@@ -57,6 +54,10 @@ export class Serializer {
 
       switch (node.type) {
         case NodeType.EXPORT_STATEMENT:
+          if (this.declareGlobal && !serializingExports) {
+            serializingExports = true
+            data += 'declare global {\n\n'
+          }
           data += this.serializeExportStatement(node);
           break;
         case NodeType.IMPORT_STATEMENT:
